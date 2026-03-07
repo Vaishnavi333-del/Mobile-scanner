@@ -1,0 +1,202 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{gvv}
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{gvv}
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+
+
+\definecolor{bg}{gray}{0.95}
+\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
+  breakable=true,
+  listing engine=minted,
+  listing only,
+  minted language=#2,
+  minted style=default,
+  minted options={%
+    linenos,
+    gobble=0,
+    breaklines=true,
+    breakafter=,,
+    fontsize=\small,
+    numbersep=8pt,
+    #1},
+  boxsep=0pt,
+  left skip=0pt,
+  right skip=0pt,
+  left=25pt,
+  right=0pt,
+  top=3pt,
+  bottom=3pt,
+  arc=5pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  bottomrule=2pt,
+
+  colback=bg,
+  colframe=orange!70,
+  enhanced,
+  overlay={%
+    \begin{tcbclipinterior}
+    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}},
+  #3,
+}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title %optional
+{Mobile Scanner}
+\date{}
+%\subtitle{A short story}
+
+\author % (optional)
+{Bhoomika L - EE25BTECH11014\\
+Vaishnavi R A - EE25BTECH11059
+}
+
+\begin{document}
+
+
+\frame{\titlepage}
+\begin{frame}{Mobile Document Scanner}
+\begin{itemize}
+    \item We are developing a mobile-based document scanning system that automatically detects and captures documents.
+\item The scanner will improve usability by reducing manual capture and allowing quick document digitization.
+\item To enhance functionality, we are planning to implement two scanning modes:
+\end{itemize}
+\begin{enumerate}
+\item Continuous Video Mode Scanner
+\item Multi-Photo Table Scanner
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Two Scanning Modes}
+    To make the application more flexible and efficient, the scanner will operate in two different modes depending on the user’s requirement.
+    \begin{enumerate}
+        \item Continuous Video Mode Scanner
+\begin{itemize}
+    \item Automatically scans documents from a live camera feed.
+\end{itemize}
+\item  Multi-Photo Table Scanner
+\begin{itemize}
+    \item Allows users to capture multiple document images and process them together.
+\end{itemize}
+    \end{enumerate}
+    These two modes provide both real-time scanning and batch document processing.
+\end{frame}
+
+
+\begin{frame}{Continuous Video Mode}
+\begin{itemize}
+    \item The phone camera continuously captures live video frames.
+\item A document detection algorithm identifies the document within the frame.
+\item A green rectangle appears when a document is detected.
+\item If the document remains stable inside the rectangle for a few seconds, the system automatically captures the image.
+\item The captured image is then cropped, enhanced, and saved as a scanned document.
+
+\end{itemize}
+
+Advantages
+\begin{itemize}
+\item Fast scanning process
+\item Minimal user interaction
+\item Ideal for scanning single documents quickly
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Multi-Photo Table Mode}
+    \begin{itemize}
+\item The user can capture multiple photos of documents.
+\item All captured images appear in a preview table/grid view.
+\item The system processes each image to:
+\begin{enumerate}
+    \item Detect document boundaries
+\item Crop and straighten the document
+
+\item Apply enhancement filters
+\end{enumerate}
+\item Users can review, reorder, or delete images before final export.
+    \end{itemize}
+Advantages
+    \begin{itemize}
+\item Efficient for scanning multiple pages
+\item Suitable for notes, assignments, or multi-page documents
+\end{itemize}
+\end{frame}
+
+\begin{frame}{System Workflow}
+    Continuous Mode
+\begin{enumerate}
+\item Start camera
+\item Detect document edges
+\item Show bounding rectangle
+\item Auto-capture after stability
+\item Process and save scanned document
+\end{enumerate}
+Multi-Photo Mode
+\begin{enumerate}
+\item Capture multiple images
+\item Display images in a table/grid
+\item Process each image
+\item Review and edit
+\item Export as scanned files
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Expected Results}
+    \begin{itemize}
+        \item Faster and more convenient document scanning
+
+\item Automatic document detection and capture
+
+\item Support for both quick scans and multi-page documents
+
+\item Improved user experience through flexible scanning modes
+    \end{itemize}
+\end{frame}
+
+\end{document}
