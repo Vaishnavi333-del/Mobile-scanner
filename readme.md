@@ -1,29 +1,118 @@
 # Document Scanner using OpenCV
 
-[![GitHub stars](https://img.shields.io/github/stars/Vaishnavi333-del/Mobile-scanner?style=social)](https://github.com/Vaishnavi333-del/Mobile-scanner)
-[![GitHub forks](https://img.shields.io/github/forks/Vaishnavi333-del/Mobile-scanner?style=social)](https://github.com/Vaishnavi333-del/Mobile-scanner)
-
-<button class="copy-button" onclick="copyToClipboard('#document-scanner-using-opencv')">📋 Copy</button>
-
-This project implements a **real-time document scanner** using Python and OpenCV. It detects rectangular documents from a camera feed and performs perspective correction to generate a flat scanned image similar to a scanned document.
+This project implements a **real-time document scanner** using Python and OpenCV.  
+It detects rectangular documents from a camera feed and performs **perspective correction** to generate a flat scanned image similar to a scanned document.
 
 The project supports two modes:
-- **Video Auto Scan**
-- **Multi Photo Scan**
+- Video Auto Scan
+- Multi Photo Scan
 
-## Table of Contents
-- [Requirements](#requirements)
-- [Running the Program](#running-the-program)
-- [Mode 1 — Video Auto Scan](#mode-1--video-auto-scan)
-- [Mode 2 — Multi Photo Scan](#mode-2--multi-photo-scan)
-- [Camera Setup](#camera-setup)
-- [Option 1 — Laptop Webcam](#option-1--laptop-webcam)
-- [Option 2 — Phone Camera (IP Webcam)](#option-2--phone-camera-ip-webcam)
+---
 
-## Requirements
-<button class="copy-button" onclick="copyToClipboard('#requirements')">📋 Copy</button>
+# Requirements
 
-```bash
 Python 3.8+
+
+Install required libraries:
+
 pip install opencv-python numpy
+
+---
+
+# Running the Program
+
+Run the script:
+
+python test.py
+
+You will see the menu:
+
+Select Mode  
+1 → Video Auto Scan  
+2 → Multi Photo Scan
+
+Enter the desired option.
+
+---
+
+# Mode 1 — Video Auto Scan
+
+- Detects a single document in real time
+- When the document is held steady for about **1 second**, the program automatically captures it
+- The scanned image is saved automatically
+
+Example output files:
+
+scan_1.jpg  
+scan_2.jpg  
+scan_3.jpg  
+
+Press **Q** to exit the program.
+
+---
+
+# Mode 2 — Multi Photo Scan
+
+- Detects multiple rectangular documents or photos
+- Press **C** to capture all detected rectangles
+
+Example output files:
+
+multipage_1.jpg  
+multipage_2.jpg  
+multipage_3.jpg  
+
+Press **Q** to exit.
+
+---
+
+# Camera Setup
+
+The program can run using either:
+
+1. Laptop Webcam  
+2. Phone Camera using IP Webcam
+
+---
+
+# Option 1 — Laptop Webcam
+
+No changes are required.
+
+The program uses the default camera:
+
+cap = cv2.VideoCapture(0)
+
+Run the program:
+
+python test.py
+
+---
+
+# Option 2 — Phone Camera (IP Webcam)
+
+Steps:
+
+1. Install **IP Webcam** on an Android phone.
+2. Connect the **phone and laptop to the same WiFi network**.
+3. Open the app and press **Start Server**.
+4. The app will display an address such as:
+
+http://192.168.1.7:8080
+
+Modify the camera line in the code.
+
+Replace:
+
+cap = cv2.VideoCapture(0)
+
+with:
+
+cap = cv2.VideoCapture("http://192.168.1.7:8080/video")
+
+Use the IP address shown in the app.
+
+Then run:
+
+python test.py
 
