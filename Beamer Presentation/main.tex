@@ -1,0 +1,262 @@
+\documentclass{beamer}
+
+\title{Mobile Scanner Application}
+\author{Bhoomika L -EE25BTECH11014\\Vaishnavi R.A-EE25BTECH11059}
+\date{}
+
+\begin{document}
+
+\frame{\titlepage}
+
+%--------------------------------
+\begin{frame}{What does the system do?}
+\begin{itemize}
+\item This system converts a mobile camera into a document scanner.
+\item It automatically detects a paper in the camera view.
+\item The document is corrected and saved like a scanned copy.
+\item Multiple pages can be combined into a PDF.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Modes of Operation}
+\begin{itemize}
+\item The system works in two modes:
+\item Continuous Scan Mode (Video Mode)
+\item Multi Document Scan Mode
+\item Both modes use the same detection pipeline.
+\item The difference lies in how capturing is triggered.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Continuous Scan Mode (Idea)}
+\begin{itemize}
+\item Detects one document at a time.
+\item Once the document is stable and clear, it is captured.
+\item Useful for scanning pages one by one.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Continuous Mode - Logic Flow}
+\begin{itemize}
+\item Capture frame from camera
+\item Detect rectangle in frame
+\item Apply perspective correction
+\item Check focus using variance
+\item Start timer when stable
+\item Capture image after fixed time
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Multi Document Mode (Idea)}
+\begin{itemize}
+\item Detects multiple documents at the same time.
+\item Observes the scene for a few seconds.
+\item Captures all documents together when stable.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Multi Mode - Logic Flow}
+\begin{itemize}
+\item Capture frame from camera
+\item Detect all rectangles
+\item Count number of valid documents
+\item Track maximum count
+\item Wait until count becomes stable
+\item Capture all documents
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Overall Processing Pipeline}
+\begin{itemize}
+\item Frame Capture → Preprocessing → Edge Detection
+\item Contour Detection → Document Selection
+\item Perspective Transformation → Focus Check → Capture
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Why Preprocessing?}
+\begin{itemize}
+\item Raw images contain noise and unnecessary color information.
+\item These make detection difficult.
+\item So we simplify the image before processing.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Grayscale Conversion}
+\begin{itemize}
+\item Converts RGB image to grayscale.
+\item Reduces complexity from 3 channels to 1.
+\item Edge detection depends on intensity, not color.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Noise Removal}
+\begin{itemize}
+\item Noise affects detection accuracy.
+\item Bilateral filtering removes noise.
+\item Edges are preserved for better detection.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Edge Detection}
+\begin{itemize}
+\item Edges are regions where pixel intensity changes sharply.
+\item These correspond to boundaries of objects.
+
+\item Canny edge detection is used:
+\begin{itemize}
+\item Computes intensity gradients
+\item Uses lower and upper thresholds
+\end{itemize}
+
+\item Decision:
+\begin{itemize}
+\item Above upper → strong edge
+\item Between → weak edge
+\item Below → ignored
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Adaptive Thresholding}
+\begin{itemize}
+\item Lighting conditions may vary.
+\item Thresholds are computed using median intensity.
+\end{itemize}
+
+\[
+v = \text{median intensity}
+\]
+
+\begin{itemize}
+\item Lower = $0.66v$
+\item Upper = $1.33v$
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Morphological Processing}
+\begin{itemize}
+\item Dilation connects broken edges.
+\item Closing fills gaps.
+\item Ensures continuous boundaries.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Contour Detection}
+\begin{itemize}
+\item Contours represent object boundaries.
+\item All shapes in the image are detected.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Filtering and Shape Detection}
+\begin{itemize}
+\item Small contours are removed.
+\item Shapes with 4 corners are selected.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Selecting the Document}
+\begin{itemize}
+\item Largest rectangle is selected.
+\item Assumed to be the document.
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Perspective Transformation}
+\begin{itemize}
+\item Converts tilted document into flat image.
+\end{itemize}
+
+\[
+\begin{bmatrix}x'\\y'\\1\end{bmatrix}
+=
+H
+\begin{bmatrix}x\\y\\1\end{bmatrix}
+\]
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Focus Detection}
+\begin{itemize}
+\item Uses variance of Laplacian.
+\item High variance → sharp
+\item Low variance → blur
+\item Threshold = 120
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{Auto Capture}
+\begin{itemize}
+\item Captures when document is stable.
+\item Uses time-based triggering.
+\end{itemize}
+\end{frame}
+\begin{frame}{Duplicate Detection}
+\begin{itemize}
+\item Compares current and previous scan.
+\item Uses image difference:
+\[
+\text{score} = \text{mean difference}
+\]
+\item Low score → duplicate → skipped
+\end{itemize}
+\end{frame}
+
+%--------------------------------
+\begin{frame}{PDF Creation}
+\begin{itemize}
+\item Images are combined into PDF.
+\end{itemize}
+\end{frame}
+
+%================= EXTRA FEATURES =================
+
+
+
+
+
+\begin{frame}{Observation Phase}
+\begin{itemize}
+\item System observes scene for few seconds.
+\item Tracks maximum document count.
+\item Ensures all documents are detected.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Stability Check}
+\begin{itemize}
+\item Capture only when document is stable.
+\item Reduces blur and improves quality.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Efficient Comparison}
+\begin{itemize}
+\item Images resized before comparison.
+\item Faster and efficient processing.
+\end{itemize}
+\end{frame}
+
+
+%--------------------------------
+
+
+\end{document}
